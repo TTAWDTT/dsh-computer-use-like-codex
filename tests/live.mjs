@@ -67,6 +67,13 @@ try{
     const ownClick=await adapterClick.execute({snapshot_id:observed.data.snapshot_id,element:find(observed.data,'AXButton','Increment')},ownerA)
     assert.equal(ownClick.ok,true);state=ownClick.data
     assert.equal((await records()).filter(x=>x.event==='button').length,4)
+    const buttonFrame=state.elements.find(x=>x.role==='AXButton'&&x.label.includes('Increment')).frame
+    const buttonX=buttonFrame.x+buttonFrame.width/2,buttonY=buttonFrame.y+buttonFrame.height/2
+    const expectedPoint={x:buttonX/state.window.pixel_scale,y:state.window.bounds.height-buttonY/state.window.pixel_scale}
+    state=ok(await call('click',{snapshot_id:state.snapshot_id,x:buttonX,y:buttonY,include_image:false}))
+    log=await records();assert.equal(log.filter(x=>x.event==='button').length,5,'Screenshot-coordinate click must activate the actual button')
+    const receivedPoint=log.filter(x=>x.event==='input'&&x.type===1).at(-1)
+    assert.ok(Math.abs(receivedPoint.window_x-expectedPoint.x)<1&&Math.abs(receivedPoint.window_y-expectedPoint.y)<1,'Target must receive the requested window-local point')
     for(let i=0;i<3;i++) state=ok(await call('click',{snapshot_id:state.snapshot_id,x:900,y:1000,include_image:false}))
     log=await records();assert.equal(log.filter(x=>x.event==='surface_down').length,3)
     const text='Hello 你好🙂 e\u0301'

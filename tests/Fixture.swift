@@ -9,7 +9,7 @@ func log(_ event:String,_ data:[String:Any]=[:]){
 class App:NSApplication{
     override func sendEvent(_ e:NSEvent){
         if [.leftMouseDown,.leftMouseUp,.leftMouseDragged,.keyDown,.keyUp,.scrollWheel].contains(e.type){
-            var d:[String:Any]=["type":e.type.rawValue,"window":e.windowNumber,"flags":e.modifierFlags.rawValue]
+            var d:[String:Any]=["type":e.type.rawValue,"window":e.windowNumber,"flags":e.modifierFlags.rawValue,"window_x":e.locationInWindow.x,"window_y":e.locationInWindow.y]
             if let cg=e.cgEvent{d["source_pid"]=cg.getIntegerValueField(.eventSourceUnixProcessID);d["target_pid"]=cg.getIntegerValueField(.eventTargetUnixProcessID);d["window_91"]=cg.getIntegerValueField(.mouseEventWindowUnderMousePointer);d["window_92"]=cg.getIntegerValueField(.mouseEventWindowUnderMousePointerThatCanHandleThisEvent)}
             if e.type == .keyDown{d["characters"]=e.characters ?? ""};log("input",d)
         }

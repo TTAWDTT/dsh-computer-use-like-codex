@@ -34,3 +34,5 @@ flowchart LR
 私有接口通过系统库的 `dlsym` 解析，仅使用 `_AXUIElementGetWindow`、`CGEventSetWindowLocation`、`CPSGetKeyFocusProcess` 和连接初始化。缺少必要接口时，相关后台输入返回错误。私有接口没有跨 macOS 版本的稳定性保证。
 
 代码入口为 `index.js`、`lib/tools.js`、`lib/driver.js` 与 `native/main.swift`。AX 观察位于 `native/Observation.swift`，输入与焦点维护位于 `native/Input.swift`，私有 ABI 封装位于 `native/Bridge.c`。
+
+截图坐标以窗口左上角为原点。创建 `NSEvent` 时转换为左下角坐标，但 `CGEventSetWindowLocation` 接收原来的左上角窗口坐标。0.1.1 的实机测试同时检查按钮实际响应和接收方事件位置。

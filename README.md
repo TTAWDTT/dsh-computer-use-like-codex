@@ -2,15 +2,17 @@
 
 为 DSH 提供 macOS 后台窗口观察、点击、文字输入、快捷键、滚动和拖拽。插件使用自己编写的 Swift 驱动，不需要 Codex、ChatGPT 或 CuaDriver，也不调用它们的服务。
 
-当前交付版本为 0.1.0，要求 DSH 0.2.2-rc.1 或兼容的 0.2 版本，安装包包含 Apple Silicon 驱动。macOS 最低部署版本为 14.4，实际验证环境见 [VERIFICATION.md](VERIFICATION.md)。
+当前交付版本为 0.1.1，要求 DSH 0.2.2-rc.1 或兼容的 0.2 版本，安装包包含 Apple Silicon 驱动。macOS 最低部署版本为 14.4，实际验证环境见 [VERIFICATION.md](VERIFICATION.md)。
 
 ## 安装到 DSH
 
-从 [v0.1.0 Release](https://github.com/TTAWDTT/dsh-computer-use-like-codex/releases/tag/v0.1.0) 下载 `dsh-computer-use-like-codex-0.1.0.tgz`。将终端切到下载目录，再通过 DSH 的插件管理器安装：
+从 [v0.1.1 Release](https://github.com/TTAWDTT/dsh-computer-use-like-codex/releases/tag/v0.1.1) 下载 `dsh-computer-use-like-codex-0.1.1.tgz`。将终端切到下载目录，再通过 DSH 的插件管理器安装：
 
 ```sh
-dsh plugin --profile desktop add ./dsh-computer-use-like-codex-0.1.0.tgz
+dsh plugin --profile desktop add ./dsh-computer-use-like-codex-0.1.1.tgz
 ```
+
+从 0.1.0 升级后，等运行中的任务结束再重启 DSH。调用 `like_codex_status`，确认实际驱动的 `version` 为 `0.1.1`。
 
 安装后，在 DSH 中调用 `like_codex_status`。`accessibility` 和 `screen_recording` 表示当前驱动宿主的权限状态。按 [PERMISSIONS.md](PERMISSIONS.md) 配置缺少的权限，然后重新加载插件。
 

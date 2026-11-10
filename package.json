@@ -1,6 +1,6 @@
 {
   "name": "dsh-computer-use-like-codex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Independent macOS background computer use for DSH: AX actions, PID/window-targeted input, synthetic activation, focus observations and window screenshots.",
   "type": "module",
   "main": "index.js",

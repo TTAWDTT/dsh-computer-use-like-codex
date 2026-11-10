@@ -27,7 +27,7 @@ struct Snapshot {
     var busy=false
     func status()->[String:Any] {
         let keyFocus=keyFocusPID()
-        return ["version":"0.1.0","protocol":1,"accessibility":AXIsProcessTrusted(),"screen_recording":CGPreflightScreenCaptureAccess(),"window_binding":dsh_has_window_binding(),"event_window_location":dsh_has_event_location(),"key_focus_query_available":keyFocus != nil,"key_focus_pid":jsonOptional(keyFocus),"frontmost_pid":jsonOptional(NSWorkspace.shared.frontmostApplication?.processIdentifier),"platform":"macos","architecture":{
+        return ["version":"0.1.1","protocol":1,"accessibility":AXIsProcessTrusted(),"screen_recording":CGPreflightScreenCaptureAccess(),"window_binding":dsh_has_window_binding(),"event_window_location":dsh_has_event_location(),"key_focus_query_available":keyFocus != nil,"key_focus_pid":jsonOptional(keyFocus),"frontmost_pid":jsonOptional(NSWorkspace.shared.frontmostApplication?.processIdentifier),"platform":"macos","architecture":{
 #if arch(arm64)
             "arm64"
 #else

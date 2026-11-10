@@ -67,7 +67,8 @@ extension Driver {
         if activationOnly {event.setIntegerValueField(.mouseEventSubtype,value:3)}
         event.setIntegerValueField(.mouseEventWindowUnderMousePointer,value:Int64(s.target.id))
         event.setIntegerValueField(.mouseEventWindowUnderMousePointerThatCanHandleThisEvent,value:Int64(s.target.id))
-        guard dsh_set_event_window_location(event,local) else {throw DriverError(code:"UNSUPPORTED_BACKGROUND",message:"Private event window-location API unavailable; no foreground fallback.")}
+        // CGEventSetWindowLocation uses a top-left origin, unlike NSEvent's location.
+        guard dsh_set_event_window_location(event,point) else {throw DriverError(code:"UNSUPPORTED_BACKGROUND",message:"Private event window-location API unavailable; no foreground fallback.")}
         event.timestamp=DispatchTime.now().uptimeNanoseconds;event.postToPid(s.target.pid)
     }
     func activateVirtually(_ s:Snapshot)throws{
@@ -215,7 +216,7 @@ extension Driver {
                 guard let event=CGEvent(scrollWheelEvent2Source:CGEventSource(stateID:.privateState),units:.pixel,wheelCount:2,wheel1:dy,wheel2:dx,wheel3:0)else{throw DriverError(code:"EVENT_CREATION_FAILED",message:"Cannot create scroll event.")}
                 event.location=CGPoint(x:s.target.frame.minX+point.x,y:s.target.frame.minY+point.y)
                 event.setIntegerValueField(.mouseEventWindowUnderMousePointer,value:Int64(s.target.id));event.setIntegerValueField(.mouseEventWindowUnderMousePointerThatCanHandleThisEvent,value:Int64(s.target.id))
-                guard dsh_set_event_window_location(event,CGPoint(x:point.x,y:s.target.frame.height-point.y))else{throw DriverError(code:"UNSUPPORTED_BACKGROUND",message:"Window-local events unavailable.")}
+                guard dsh_set_event_window_location(event,point)else{throw DriverError(code:"UNSUPPORTED_BACKGROUND",message:"Window-local events unavailable.")}
                 try checkpoint(monitor);sent=true;event.postToPid(s.target.pid);route="pid_scroll"
             case "drag":
                 let from=try mousePoint(p,s),x=try required(p.to_x,"to_x"),y=try required(p.to_y,"to_y"),duration=p.duration_ms ?? 350
