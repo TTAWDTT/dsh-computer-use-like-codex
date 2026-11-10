@@ -1,0 +1,8 @@
+- insert:
+    - id: dsh-computer-use-like-codex
+      name: dsh-computer-use-like-codex
+      config:
+        includeImages: true
+        maxElements: 250
+        requestTimeoutMs: 30000
+        allowedApps: []
